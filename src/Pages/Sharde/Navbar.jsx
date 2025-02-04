@@ -51,14 +51,14 @@ const Navbar = () => {
         }`}
     >
       <div className="navbar-start">
-        <a className="btn btn-ghost text-xl">DOKAN</a>
+        <a className="btn btn-ghost text-xl" href='/'>ZOOMEATS</a>
       </div>
 
       {/* Center menu - removed dropdown */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><a>Home</a></li>
-          <li><a>About us</a></li>
+          <li><a href='/'>Home</a></li>
+          <li><a href='/about'>About us</a></li>
           <li><a>Contacts</a></li>
         </ul>
       </div>
@@ -81,8 +81,8 @@ const Navbar = () => {
         </button>
 
         {/* Login and Sign Up buttons */}
-        <button className="btn btn-ghost text-sm">Login</button>
-        <button className="btn btn-ghost text-sm">Sign Up</button>
+        <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
+        <button className="btn btn-ghost text-sm"><a href="/singup">Sign Up</a></button>
       </div>
     </div>
   );
