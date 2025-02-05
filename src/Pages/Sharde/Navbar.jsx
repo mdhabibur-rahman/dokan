@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle } from 'react-icons/fa'; // Import the user profile icon
-import { FaRegUser, FaMotorcycle, FaStoreAlt } from 'react-icons/fa'; // Icons for roles
+import { FaUserCircle, FaBars } from 'react-icons/fa'; // Add FaBars for hamburger icon
+import { FaRegUser, FaMotorcycle, FaStoreAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mainElementTop, setMainElementTop] = useState(0);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [selectedRole, setSelectedRole] = useState(''); // State to store the selected role
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing mobile menu toggle
 
-  // Function to handle scroll events
   const handleScroll = () => {
     if (window.scrollY >= mainElementTop) {
       setIsNavbarVisible(true);
@@ -22,7 +22,6 @@ const Navbar = () => {
     setLastScrollY(window.scrollY);
   };
 
-  // Hook to attach scroll event listener when component mounts
   useEffect(() => {
     const mainElement = document.querySelector('main');
     if (mainElement) {
@@ -36,29 +35,33 @@ const Navbar = () => {
     };
   }, [lastScrollY]);
 
-  // Open and close modal
   const toggleModal = () => setShowModal(!showModal);
 
-  // Handle role selection
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    // Here you can redirect to the specific page based on the role
     if (role === 'customer') {
-      window.location.href = '/customer_signup'; // Redirect to customer sign-up page
+      window.location.href = '/customer_signup';
     } else if (role === 'delivery') {
-      window.location.href = '/delivery_man_signup'; // Redirect to delivery man sign-up page
+      window.location.href = '/delivery_man_signup';
     } else if (role === 'restaurant') {
-      window.location.href = '/sales_singup'; // Redirect to restaurant owner sign-up page
+      window.location.href = '/sales_singup';
     }
   };
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle for mobile menu
 
   return (
     <div
       className={`navbar sticky top-0 z-10 bg-white bg-opacity-75 backdrop-blur-sm transition-transform duration-300 ${isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
     >
-      <div className="navbar-start">
-        <a className="btn btn-ghost text-xl" href='/'>ZOOMEATS</a>
+      <div className="navbar-start flex items-center">
+        {/* Hamburger menu for small screens */}
+        <button className="lg:hidden text-3xl ml-4" onClick={toggleMenu}>
+          <FaBars />
+        </button>
+
+        <a className="btn btn-ghost text-xl ml-2" href='/'>ZOOMEATS</a>
       </div>
 
       {/* Center menu */}
@@ -71,17 +74,16 @@ const Navbar = () => {
 
       {/* Navbar End with Login, Sign Up, and Profile Icon */}
       <div className="navbar-end flex items-center space-x-4">
-        {/* Login and Sign Up buttons */}
-        <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
-        <button className="btn btn-ghost text-sm" onClick={toggleModal}>Sign Up</button>
-
-        {/* Profile Icon (with Demo Image) */}
+        <div className="hidden lg:flex">
+          <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
+          <button className="btn btn-ghost text-sm" onClick={toggleModal}>Sign Up</button>
+        </div>
         <div className="relative">
           <a href="">
             <img
-              src="https://www.w3schools.com/w3images/avatar2.png" // Demo image for the profile (replace with your own image URL)
+              src="https://www.w3schools.com/w3images/avatar2.png"
               alt="Profile"
-              className="rounded-full w-10 h-10 object-cover ml-2" // Make the image circular
+              className="rounded-full w-10 h-10 object-cover ml-2"
             />
           </a>
         </div>
@@ -93,7 +95,6 @@ const Navbar = () => {
           <div className="bg-white p-8 rounded-xl shadow-lg w-96 animate__animated animate__fadeIn animate__faster">
             <h3 className="text-2xl font-semibold text-center mb-6 text-gray-700">Select your Profile Role</h3>
             <div className="flex justify-between mb-6">
-              {/* Customer Option */}
               <button
                 className="flex flex-col items-center w-28 p-4 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition ease-in-out duration-300"
                 onClick={() => handleRoleSelect('customer')}
@@ -102,7 +103,6 @@ const Navbar = () => {
                 <span className="text-sm font-medium">Customer</span>
               </button>
 
-              {/* Delivery Man Option */}
               <button
                 className="flex flex-col items-center w-28 p-4 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition ease-in-out duration-300"
                 onClick={() => handleRoleSelect('delivery')}
@@ -111,7 +111,6 @@ const Navbar = () => {
                 <span className="text-sm font-medium">Delivery</span>
               </button>
 
-              {/* Restaurant Owner Option */}
               <button
                 className="flex flex-col items-center w-28 p-4 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition ease-in-out duration-300"
                 onClick={() => handleRoleSelect('restaurant')}
@@ -122,11 +121,23 @@ const Navbar = () => {
             </div>
             <button
               className="w-full p-3 text-white bg-red-500 hover:bg-red-600 rounded-xl mt-4 transition ease-in-out duration-300"
-              onClick={toggleModal} // Close the modal when clicked
+              onClick={toggleModal}
             >
               Close
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Mobile Menu for small screens */}
+      {isMenuOpen && (
+        <div className="lg:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10">
+          <ul className="flex flex-col items-center py-4">
+            <li><a href="/" className="py-2 px-4 hover:bg-gray-200 w-full text-center">Home</a></li>
+            <li><a href="/about" className="py-2 px-4 hover:bg-gray-200 w-full text-center">About us</a></li>
+            <li><a href="/login" className="py-2 px-4 hover:bg-gray-200 w-full text-center">Login</a></li>
+            <li><button className="py-2 px-4 hover:bg-gray-200 w-full text-center" onClick={toggleModal}>Sign Up</button></li>
+          </ul>
         </div>
       )}
     </div>

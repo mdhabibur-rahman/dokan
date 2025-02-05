@@ -4,7 +4,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 const Footer = () => {
   return (
     <footer className="footer bg-gradient-to-r from-gray-800 via-blue-900 to-indigo-800 text-white p-10 mt-10">
-      <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="footer-content grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* About Us Section */}
         <div className="about-us">
           <h3 className="text-2xl font-semibold mb-4">About ZOOMEATS</h3>
