@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle, FaBars } from 'react-icons/fa'; // Add FaBars for hamburger icon
-import { FaRegUser, FaMotorcycle, FaStoreAlt } from 'react-icons/fa';
+import { FaBars, FaRegUser, FaMotorcycle, FaStoreAlt, FaEllipsisV } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -9,6 +8,11 @@ const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing mobile menu toggle
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [rating, setRating] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for managing dropdown visibility
 
   const handleScroll = () => {
     if (window.scrollY >= mainElementTop) {
@@ -48,7 +52,23 @@ const Navbar = () => {
     }
   };
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle for mobile menu
+  const handlePriceChange = (e, type) => {
+    if (type === 'min') {
+      setMinPrice(e.target.value);
+    } else if (type === 'max') {
+      setMaxPrice(e.target.value);
+    }
+  };
+
+  const handleRatingClick = (star) => {
+    setRating(prevRating => prevRating === star ? 0 : star);
+  };
+  
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  
 
   return (
     <div
@@ -57,11 +77,14 @@ const Navbar = () => {
     >
       <div className="navbar-start flex items-center">
         {/* Hamburger menu for small screens */}
-        <button className="lg:hidden text-3xl ml-4" onClick={toggleMenu}>
+        <button className="lg:hidden text-2xl sm:text-lg ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <FaBars />
         </button>
 
-        <a className="btn btn-ghost text-xl ml-2" href='/'>ZOOMEATS</a>
+        {/* Brand Name wrapped in a span */}
+        <span className="btn btn-ghost ml-2 text-xl text-[17px] lg:text-[20px]">
+          <a href='/'>ZOOMEATS</a>
+        </span>
       </div>
 
       {/* Center menu */}
@@ -78,7 +101,7 @@ const Navbar = () => {
           <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
           <button className="btn btn-ghost text-sm" onClick={toggleModal}>Sign Up</button>
         </div>
-        <div className="relative">
+        <div className="relative flex items-center space-x-2">
           <a href="">
             <img
               src="https://www.w3schools.com/w3images/avatar2.png"
@@ -86,6 +109,28 @@ const Navbar = () => {
               className="rounded-full w-10 h-10 object-cover ml-2"
             />
           </a>
+          {/* Three-dot button */}
+          <button
+            className="text-xl text-gray-600"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown visibility
+          >
+            <FaEllipsisV />
+          </button>
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <div className="absolute right-[-8px] bg-white shadow-lg rounded-b-md mt-60 w-48 p-2 flex flex-col">
+              <a href="/" className="py-2 px-4 hover:bg-gray-200 rounded-md">Home</a>
+              <a href="/about" className="py-2 px-4 hover:bg-gray-200 rounded-md">About Us</a>
+              <a href="/login" className="py-2 px-4 hover:bg-gray-200 rounded-md">Login</a>
+              <a
+                className="py-2 px-4 hover:bg-gray-200 rounded-md"
+                onClick={toggleModal}
+              >
+                Sign Up
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
@@ -129,15 +174,78 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Menu for small screens */}
+      {/* Mobile Menu with Filters for small screens */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10">
-          <ul className="flex flex-col items-center py-4">
-            <li><a href="/" className="py-2 px-4 hover:bg-gray-200 w-full text-center">Home</a></li>
-            <li><a href="/about" className="py-2 px-4 hover:bg-gray-200 w-full text-center">About us</a></li>
-            <li><a href="/login" className="py-2 px-4 hover:bg-gray-200 w-full text-center">Login</a></li>
-            <li><button className="py-2 px-4 hover:bg-gray-200 w-full text-center" onClick={toggleModal}>Sign Up</button></li>
-          </ul>
+        <div className="lg:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10 p-4 rounded-b-lg">
+          {/* Compact Filters Section */}
+          <div className="space-y-4">
+
+            {/* Sort By Section */}
+            <div>
+              <h3 className="font-medium text-lg">Sort By</h3>
+              <select className="w-full p-2 border rounded-md text-sm">
+                <option>Relevance</option>
+                <option>Fastest Delivery</option>
+                <option>Distance</option>
+              </select>
+            </div>
+
+            {/* Price Range Section */}
+            <div>
+              <h3 className="font-medium text-lg">Price Range</h3>
+              <div className="flex justify-between text-sm">
+                <span>Min: ${minPrice}</span>
+                <span>Max: ${maxPrice}</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                value={minPrice}
+                onChange={(e) => handlePriceChange(e, 'min')}
+                className="w-full mt-2"
+              />
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                value={maxPrice}
+                onChange={(e) => handlePriceChange(e, 'max')}
+                className="w-full mt-2"
+              />
+            </div>
+
+            {/* Rating Section */}
+            <div>
+              <h3 className="font-medium text-lg">Rating</h3>
+              <div className="flex justify-start space-x-1 text-sm">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    onClick={() => handleRatingClick(star)}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill={star <= rating ? "gold" : "gray"}
+                    className="w-5 h-5 cursor-pointer"
+                  >
+                    <path d="M10 15.27l4.18 2.73-1.64-5.1 4.18-3.64-5.2-.43L10 .6l-2.52 7.23-5.2.43 4.18 3.64-1.64 5.1L10 15.27z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
+            {/* Search Section */}
+            <div>
+              <h3 className="font-medium text-lg">Search</h3>
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md mt-2 text-sm"
+                placeholder="Search for cuisines"
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Carousel from '../Carousel/Carousel';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-
 const Home = () => {
     const [rating, setRating] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
@@ -62,24 +61,27 @@ const Home = () => {
                         placeholder="Search for food in your area..."
                         value={searchLocation}
                         onChange={handleLocationChange}
-                        className="w-full p-4 pl-10 pr-4 rounded-full text-lg border-2 border-gray-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all ease-in-out duration-300"
+                        className="w-full p-2 pl-10 pr-4 rounded-full text-base sm:text-lg border-2 border-gray-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all ease-in-out duration-300 placeholder:text-sm sm:placeholder:text-base"
                     />
                     {/* Location Icon on Right */}
-                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">
-                        <i className="fas fa-map-marker-alt m-5"></i>
+                    <span className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-xl">
+                        <i className="fas fa-map-marker-alt"></i>
                     </span>
                 </div>
                 <button
                     onClick={handleSearchSubmit}
-                    className="ml-4 px-6 py-3 bg-indigo-600 text-white rounded-full focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700"
+                    className="lg:ml-4 ml-2 px-4 py-2 sm:px-8 sm:py-2 bg-indigo-600 text-white rounded-full focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700 text-sm sm:text-base"
                 >
                     Search
                 </button>
             </div>
 
+
+
+
             <main className="flex p-8">
-                {/* Sidebar for Filters */}
-                <div className="w-64 bg-gray-100 p-5 rounded-lg shadow-md mr-8">
+                {/* Sidebar for Filters - Hidden on Small Devices */}
+                <div className="w-64 bg-gray-100 p-5 rounded-lg shadow-md mr-8 hidden md:block">
                     <h2 className="text-2xl font-semibold mb-5">Filters</h2>
 
                     {/* Sort By Section */}
@@ -161,7 +163,7 @@ const Home = () => {
 
                     {/* Display All or Filtered Products */}
                     <div className="flex items-center justify-center mt-10">
-                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 sm:gap-5 lg:gap-20">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-20">
                             {(filteredProducts.length > 0 ? filteredProducts : foodItems).map((food) => (
                                 <div key={food.id} className="card bg-base-100 lg:w-96 shadow-xl md:w-50">
                                     <figure className="px-10 pt-10">
@@ -175,13 +177,16 @@ const Home = () => {
                                         <h2 className="card-title">{food.name}</h2>
                                         <p>{food.description}</p>
                                         <div className="card-actions">
-                                            <button className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">Buy Now</button>
+                                            <button className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
+                                                Buy Now
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
+
                 </div>
             </main>
         </>
