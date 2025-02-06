@@ -50,7 +50,7 @@ const Home = () => {
 
     return (
         <>
-            <Carousel></Carousel>
+            <Carousel />
 
             {/* Beautiful Search Bar Below Carousel */}
             <div className="w-full p-5 flex justify-center items-center mt-6 rounded-lg shadow-lg">
@@ -76,12 +76,9 @@ const Home = () => {
                 </button>
             </div>
 
-
-
-
             <main className="flex p-8">
                 {/* Sidebar for Filters - Hidden on Small Devices */}
-                <div className="w-64 bg-gray-100 p-5 rounded-lg shadow-md mr-8 hidden md:block">
+                <div className="w-64 bg-gray-100 p-5 rounded-lg shadow-md mr-8 hidden 2xl:block">
                     <h2 className="text-2xl font-semibold mb-5">Filters</h2>
 
                     {/* Sort By Section */}
@@ -163,19 +160,22 @@ const Home = () => {
 
                     {/* Display All or Filtered Products */}
                     <div className="flex items-center justify-center mt-10">
-                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-20">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-20">
                             {(filteredProducts.length > 0 ? filteredProducts : foodItems).map((food) => (
-                                <div key={food.id} className="card bg-base-100 lg:w-96 shadow-xl md:w-50">
+                                <div
+                                    key={food.id}
+                                    className="card bg-base-100 shadow-xl w-full sm:w-50 md:w-60 lg:w-96 max-w-xs mx-auto h-auto sm:h-96 md:h-auto"
+                                >
                                     <figure className="px-10 pt-10">
                                         <img
                                             src={food.image}
                                             alt={food.name}
-                                            className="rounded-xl"
+                                            className="rounded-lg w-full h-full object-cover"
                                         />
                                     </figure>
                                     <div className="card-body items-center text-center">
-                                        <h2 className="card-title">{food.name}</h2>
-                                        <p>{food.description}</p>
+                                        <h2 className="card-title text-sm sm:text-base md:text-lg lg:text-xl">{food.name}</h2>
+                                        <p className="text-xs sm:text-sm md:text-base lg:text-lg">{food.description}</p>
                                         <div className="card-actions">
                                             <button className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
                                                 Buy Now
@@ -186,7 +186,6 @@ const Home = () => {
                             ))}
                         </div>
                     </div>
-
                 </div>
             </main>
         </>

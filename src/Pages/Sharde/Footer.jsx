@@ -26,17 +26,37 @@ const Footer = () => {
         <div className="social-media">
           <h3 className="text-2xl font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-6">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-300 transition">
-              <FaFacebook size={30} />
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-indigo-300 transition"
+            >
+              <FaFacebook className="text-lg sm:text-2xl md:text-2xl" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-300 transition">
-              <FaTwitter size={30} />
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-indigo-300 transition"
+            >
+              <FaTwitter className="text-lg sm:text-2xl md:text-2xl" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-300 transition">
-              <FaInstagram size={30} />
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-indigo-300 transition"
+            >
+              <FaInstagram className="text-lg sm:text-2xl md:text-2xl" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-300 transition">
-              <FaLinkedin size={30} />
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-indigo-300 transition"
+            >
+              <FaLinkedin className="text-lg sm:text-2xl md:text-2xl" />
             </a>
           </div>
         </div>

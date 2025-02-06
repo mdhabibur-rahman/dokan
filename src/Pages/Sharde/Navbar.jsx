@@ -63,12 +63,12 @@ const Navbar = () => {
   const handleRatingClick = (star) => {
     setRating(prevRating => prevRating === star ? 0 : star);
   };
-  
+
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-  
+
 
   return (
     <div
@@ -111,7 +111,7 @@ const Navbar = () => {
           </a>
           {/* Three-dot button */}
           <button
-            className="text-xl text-gray-600"
+            className="text-xl text-gray-600 lg:hidden" // Hides button on large screens and above
             onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown visibility
           >
             <FaEllipsisV />
