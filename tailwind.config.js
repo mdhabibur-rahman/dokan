@@ -5,7 +5,11 @@ module.exports = {
     './public/index.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'xs': '456px',  // Defining a custom screen size 'xs' for screens 320px and up
+      },
+    },
   },
   plugins: [require('daisyui')],
 };

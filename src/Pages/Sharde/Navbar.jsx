@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaRegUser, FaMotorcycle, FaStoreAlt, FaEllipsisV } from 'react-icons/fa';
+import Menu from '../Component/Menu/Menu';
+
 
 const Navbar = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -7,12 +9,11 @@ const Navbar = () => {
   const [mainElementTop, setMainElementTop] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing mobile menu toggle
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
   const [rating, setRating] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for managing dropdown visibility
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY >= mainElementTop) {
@@ -52,36 +53,25 @@ const Navbar = () => {
     }
   };
 
-  const handlePriceChange = (e, type) => {
-    if (type === 'min') {
-      setMinPrice(e.target.value);
-    } else if (type === 'max') {
-      setMaxPrice(e.target.value);
-    }
-  };
-
-  const handleRatingClick = (star) => {
-    setRating(prevRating => prevRating === star ? 0 : star);
-  };
-
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-
   return (
     <div
       className={`navbar sticky top-0 z-10 bg-white bg-opacity-75 backdrop-blur-sm transition-transform duration-300 ${isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
     >
       <div className="navbar-start flex items-center">
-        {/* Hamburger menu for small screens */}
-        <button className="lg:hidden text-2xl sm:text-lg ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <FaBars />
-        </button>
 
-        {/* Brand Name wrapped in a span */}
+        <Menu
+          minPrice={minPrice}
+          setMinPrice={setMinPrice}
+          maxPrice={maxPrice}
+          setMaxPrice={setMaxPrice}
+          rating={rating}
+          setRating={setRating}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        
+        {/* Brand Name */}
         <span className="btn btn-ghost ml-2 text-xl text-[17px] lg:text-[20px]">
           <a href='/'>ZOOMEATS</a>
         </span>
@@ -95,7 +85,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Navbar End with Login, Sign Up, and Profile Icon */}
+      {/* Navbar End */}
       <div className="navbar-end flex items-center space-x-4">
         <div className="hidden lg:flex">
           <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
@@ -109,10 +99,9 @@ const Navbar = () => {
               className="rounded-full w-10 h-10 object-cover ml-2"
             />
           </a>
-          {/* Three-dot button */}
           <button
-            className="text-xl text-gray-600 lg:hidden" // Hides button on large screens and above
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown visibility
+            className="text-xl text-gray-600 lg:hidden"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             <FaEllipsisV />
           </button>
@@ -170,81 +159,6 @@ const Navbar = () => {
             >
               Close
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Menu with Filters for small screens */}
-      {isMenuOpen && (
-        <div className="lg:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10 p-4 rounded-b-lg">
-          {/* Compact Filters Section */}
-          <div className="space-y-4">
-
-            {/* Sort By Section */}
-            <div>
-              <h3 className="font-medium text-lg">Sort By</h3>
-              <select className="w-full p-2 border rounded-md text-sm">
-                <option>Relevance</option>
-                <option>Fastest Delivery</option>
-                <option>Distance</option>
-              </select>
-            </div>
-
-            {/* Price Range Section */}
-            <div>
-              <h3 className="font-medium text-lg">Price Range</h3>
-              <div className="flex justify-between text-sm">
-                <span>Min: ${minPrice}</span>
-                <span>Max: ${maxPrice}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={minPrice}
-                onChange={(e) => handlePriceChange(e, 'min')}
-                className="w-full mt-2"
-              />
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={maxPrice}
-                onChange={(e) => handlePriceChange(e, 'max')}
-                className="w-full mt-2"
-              />
-            </div>
-
-            {/* Rating Section */}
-            <div>
-              <h3 className="font-medium text-lg">Rating</h3>
-              <div className="flex justify-start space-x-1 text-sm">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg
-                    key={star}
-                    onClick={() => handleRatingClick(star)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill={star <= rating ? "gold" : "gray"}
-                    className="w-5 h-5 cursor-pointer"
-                  >
-                    <path d="M10 15.27l4.18 2.73-1.64-5.1 4.18-3.64-5.2-.43L10 .6l-2.52 7.23-5.2.43 4.18 3.64-1.64 5.1L10 15.27z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-
-            {/* Search Section */}
-            <div>
-              <h3 className="font-medium text-lg">Search</h3>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md mt-2 text-sm"
-                placeholder="Search for cuisines"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-            </div>
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Carousel from '../Carousel/Carousel';
+import React, { useState, useEffect } from 'react';
+import Carousel from '../Component/Carousel/Carousel';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Home = () => {
@@ -8,12 +8,14 @@ const Home = () => {
     const [maxPrice, setMaxPrice] = useState(1000); // Set an initial max price range
     const [searchLocation, setSearchLocation] = useState(''); // Store search location
     const [filteredProducts, setFilteredProducts] = useState([]); // Store filtered products
+    const [expandedDescription, setExpandedDescription] = useState(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false); // Track screen size for mobile behavior
 
-    // Example food data (this would come from a backend in a real app)
     const foodItems = [
-        { id: 1, name: 'Mutton Biriyani', description: 'Delicious mutton biriyani made with aromatic spices.', price: 20, image: '/src/assets/img/food/mutton-biriyani-full-chinigura-mutton-1-1.jpg' },
-        { id: 2, name: 'Veg Cheeseburger', description: 'A delicious and cheesy veg burger for a delightful meal.', price: 15, image: '/src/assets/img/food/Secret-Veg-Cheeseburgers-c981dd6.jpg' },
-        { id: 3, name: 'Vegetable Pizza', description: 'Freshly baked pizza loaded with healthy veggies.', price: 12, image: '/src/assets/img/food/vegatable_pizza.jpg' },
+        { id: 1, name: 'Mutton Biriyani', description: 'Delicious mutton biriyani made with aromatic spices, cooked to perfection for a flavorful experience.', price: 20, image: '/src/assets/img/food/mutton-biriyani-full-chinigura-mutton-1-1.jpg' },
+        { id: 2, name: 'Vegetable Pizza', description: 'Freshly baked pizza loaded with healthy veggies like bell peppers, onions, olives, and mushrooms for the perfect balance of flavors.', price: 12, image: '/src/assets/img/food/vegatable_pizza.jpg' },
+        { id: 3, name: 'Chicken Tikka', description: 'Juicy and flavorful chicken tikka marinated with yogurt and spices, grilled to perfection with a smoky taste.', price: 18, image: '/src/assets/img/food/chicken-tikka.jpg' },
+        { id: 4, name: 'Pasta Alfredo', description: 'Creamy and rich Alfredo pasta made with fresh cream, parmesan, and a touch of garlic for an indulgent meal.', price: 16, image: '/src/assets/img/food/pasta-alfredo.jpg' },
     ];
 
     // Function to handle rating click
@@ -47,6 +49,37 @@ const Home = () => {
         );
         setFilteredProducts(filtered);
     };
+
+    // Function to truncate description to exactly 40 characters
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return description.substring(0, maxLength) + '...';
+        }
+        return description;
+    };
+
+    // Toggle expanded description for each food item
+    const toggleDescription = (id) => {
+        setExpandedDescription(expandedDescription === id ? null : id);
+    };
+
+    // Check screen size on load and resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 640) { // Tailwind's `sm` breakpoint (640px)
+                setIsSmallScreen(true);
+            } else {
+                setIsSmallScreen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Check on initial load
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <>
@@ -142,16 +175,6 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Search for Cuisines */}
-                    <div className="mb-6">
-                        <h3 className="font-medium mb-2">Search</h3>
-                        <input
-                            type="text"
-                            placeholder="Search for cuisines"
-                            className="w-full p-2 border rounded"
-                        />
-                    </div>
                 </div>
 
                 {/* Main Content */}
@@ -160,11 +183,11 @@ const Home = () => {
 
                     {/* Display All or Filtered Products */}
                     <div className="flex items-center justify-center mt-10">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-20">
+                        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-15">
                             {(filteredProducts.length > 0 ? filteredProducts : foodItems).map((food) => (
                                 <div
                                     key={food.id}
-                                    className="card bg-base-100 shadow-xl w-full sm:w-50 md:w-60 lg:w-96 max-w-xs mx-auto h-auto sm:h-96 md:h-auto"
+                                    className="card bg-base-100 shadow-xl w-full sm:w-50 md:w-60 lg:w-72 max-w-xs mx-auto h-auto sm:h-96 md:h-auto"
                                 >
                                     <figure className="px-10 pt-10">
                                         <img
@@ -174,10 +197,27 @@ const Home = () => {
                                         />
                                     </figure>
                                     <div className="card-body items-center text-center">
-                                        <h2 className="card-title text-sm sm:text-base md:text-lg lg:text-xl">{food.name}</h2>
-                                        <p className="text-xs sm:text-sm md:text-base lg:text-lg">{food.description}</p>
+                                        <h2 className="card-title text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">{food.name}</h2>
+                                        <p className="text-xs sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-xs">
+                                            {/* Show description based on screen size */}
+                                            {isSmallScreen
+                                                ? expandedDescription === food.id
+                                                    ? food.description
+                                                    : truncateDescription(food.description, 40)
+                                                : expandedDescription === food.id
+                                                    ? food.description
+                                                    : truncateDescription(food.description, 40)} {/* Full or truncated description */}
+                                        </p>
+                                        {food.description.length > 40 && (
+                                            <button
+                                                className="text-indigo-600 hover:underline text-xs sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-xs"
+                                                onClick={() => toggleDescription(food.id)} // Toggle description visibility
+                                            >
+                                                {expandedDescription === food.id ? 'See Less' : 'See More'}
+                                            </button>
+                                        )}
                                         <div className="card-actions">
-                                            <button className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
+                                            <button className="w-full py-1 px-1 sm:py-2 sm:px-4 text-[12px] sm:text-[20px] bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
                                                 Buy Now
                                             </button>
                                         </div>

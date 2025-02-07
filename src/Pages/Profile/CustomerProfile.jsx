@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { FaHistory, FaTruck } from 'react-icons/fa';
 
 const CustomerProfile = () => {
-  // Sample customer data
   const [customerData, setCustomerData] = useState({
     fullName: 'John Doe',
     email: 'johndoe@example.com',
@@ -11,11 +11,9 @@ const CustomerProfile = () => {
   const [orders, setOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(customerData);
-  const [selectedSection, setSelectedSection] = useState('orderHistory'); // Controls which section is shown ('orderHistory' or 'currentOrder')
+  const [selectedSection, setSelectedSection] = useState('orderHistory');
 
-  // Fetch customer orders (can be from an API)
   useEffect(() => {
-    // Mock data for orders
     const mockOrders = [
       {
         id: 1,
@@ -38,8 +36,8 @@ const CustomerProfile = () => {
         totalPrice: 9.98,
       },
       {
-        id: 2,
-        date: '2025-02-03',
+        id: 3,
+        date: '2025-02-05',
         status: 'On the way',
         items: [
           { name: 'Burger', quantity: 1, price: 6.99 },
@@ -48,8 +46,8 @@ const CustomerProfile = () => {
         totalPrice: 9.98,
       },
       {
-        id: 3,
-        date: '2025-02-05',
+        id: 4,
+        date: '2025-02-06',
         status: 'Pending',
         items: [
           { name: 'Salad', quantity: 2, price: 5.99 },
@@ -58,7 +56,7 @@ const CustomerProfile = () => {
       },
     ];
 
-    setOrders(mockOrders); // Set mock order data
+    setOrders(mockOrders);
   }, []);
 
   const handleCancelOrder = (orderId) => {
@@ -93,141 +91,133 @@ const CustomerProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div className="w-64 bg-white p-6 shadow-lg">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Order</h3>
-        <div className="space-y-4">
-          <button
-            onClick={() => setSelectedSection('orderHistory')}
-            className={`w-full py-2 text-left px-4 rounded-md ${selectedSection === 'orderHistory' ? 'bg-indigo-600 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
-          >
-            Order History
-          </button>
-          <button
-            onClick={() => setSelectedSection('currentOrder')}
-            className={`w-full py-2 text-left px-4 rounded-md ${selectedSection === 'currentOrder' ? 'bg-indigo-600 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
-          >
-            Current Order
-          </button>
-        </div>
-      </div>
+    <div className="relative min-h-screen flex justify-center items-center p-6">
+      {/* Video Background */}
+      <video 
+        autoPlay 
+        loop 
+        muted 
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-30 z-[-1]"
+      >
+        <source src="https://www.w3schools.com/w3images/forest.mp4" type="video/mp4" />
+      </video>
 
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-        <div className="max-w-3xl w-full bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Your Profile</h2>
-
-          {/* Profile Picture */}
-          <div className="flex justify-center mb-6">
-            <img
-              src="https://www.w3schools.com/w3images/avatar2.png"
-              alt="Profile"
-              className="rounded-full w-32 h-32 object-cover border-4 border-indigo-600"
-            />
-          </div>
-
-          {/* Profile Information */}
-          <div className="space-y-6">
-            <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
-                Full Name
-              </label>
+      <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg overflow-hidden p-8 transform transition-all duration-300 ease-in-out hover:scale-105 bg-opacity-80 backdrop-blur-lg">
+        
+        {/* Profile Section */}
+        <div className="text-center mb-8">
+          <img
+            src="https://www.w3schools.com/w3images/avatar2.png"
+            alt="Profile"
+            className="rounded-full w-32 h-32 mx-auto mb-4 shadow-xl"
+          />
+          {/* Profile Info */}
+          <div className="space-y-4">
+            <div className="text-xl font-semibold text-gray-800">
               {isEditing ? (
                 <input
                   type="text"
                   name="fullName"
-                  id="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter your full name"
+                  className="w-full border-b border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
-                <p className="text-gray-700">{formData.fullName}</p>
+                <p>{formData.fullName}</p>
               )}
             </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
-              </label>
+            <div className="text-gray-600">
               {isEditing ? (
                 <input
                   type="email"
                   name="email"
-                  id="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter your email"
+                  className="w-full border-b border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
-                <p className="text-gray-700">{formData.email}</p>
+                <p>{formData.email}</p>
               )}
             </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                Phone Number
-              </label>
+            <div className="text-gray-600">
               {isEditing ? (
                 <input
                   type="tel"
                   name="phone"
-                  id="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter your phone number"
+                  className="w-full border-b border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
-                <p className="text-gray-700">{formData.phone}</p>
-              )}
-            </div>
-
-            {/* Edit/Save Buttons */}
-            <div className="mt-6 flex justify-center space-x-4">
-              {isEditing ? (
-                <>
-                  <button
-                    onClick={handleSave}
-                    className="py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                  >
-                    Save Changes
-                  </button>
-                  <button
-                    onClick={handleCancel}
-                    className="py-2 px-6 bg-gray-400 text-white rounded-md hover:bg-gray-500"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                >
-                  Edit Profile
-                </button>
+                <p>{formData.phone}</p>
               )}
             </div>
           </div>
+
+          {/* Edit/Save Buttons */}
+          <div className="mt-6">
+            {isEditing ? (
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={handleSave}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-xl hover:bg-blue-700 transition-all"
+                >
+                  Save Changes
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="px-6 py-3 bg-gray-500 text-white rounded-full shadow-xl hover:bg-gray-600 transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-xl hover:bg-blue-700 transition-all"
+              >
+                Edit Profile
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Orders Section */}
-        <div className="max-w-3xl w-full bg-white p-8 rounded-lg shadow-lg mt-8">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+        {/* Order Section with Icons */}
+        <div className="flex justify-center space-x-10 mb-8">
+          <button
+            onClick={() => setSelectedSection('orderHistory')}
+            className={`p-4 rounded-full transition-all duration-300 ${
+              selectedSection === 'orderHistory'
+                ? 'bg-blue-600 text-white shadow-2xl scale-110'
+                : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
+            }`}
+          >
+            <FaHistory size={30} />
+          </button>
+          <button
+            onClick={() => setSelectedSection('currentOrder')}
+            className={`p-4 rounded-full transition-all duration-300 ${
+              selectedSection === 'currentOrder'
+                ? 'bg-blue-600 text-white shadow-2xl scale-110'
+                : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
+            }`}
+          >
+            <FaTruck size={30} />
+          </button>
+        </div>
+
+        {/* Orders List */}
+        <div className="mt-8">
+          <h3 className="text-3xl font-semibold text-gray-800 mb-6">
             {selectedSection === 'orderHistory' ? 'Order History' : 'Current Orders'}
           </h3>
 
-          {/* Conditional Display of Orders */}
           {selectedSection === 'orderHistory' &&
             orders.filter(order => order.status === 'Delivered').map((order) => (
-              <div key={order.id} className="border-b py-6">
-                <p className="text-gray-700">Order ID: {order.id}</p>
-                <p className="text-gray-700">Date: {order.date}</p>
-                <p className="text-gray-700">Total Price: ${order.totalPrice}</p>
+              <div key={order.id} className="bg-white p-6 rounded-xl shadow-md mb-6 transform hover:scale-105">
+                <p className="text-lg font-semibold text-gray-800">Order ID: {order.id}</p>
+                <p className="text-gray-600">Date: {order.date}</p>
+                <p className="text-gray-600">Total: ${order.totalPrice}</p>
                 <ul className="list-disc pl-6 mt-2">
                   {order.items.map((item, index) => (
                     <li key={index} className="text-gray-700">
@@ -236,42 +226,37 @@ const CustomerProfile = () => {
                   ))}
                 </ul>
               </div>
-            ))
-          }
+            ))}
 
           {selectedSection === 'currentOrder' &&
             orders.filter(order => ['Processing', 'On the way', 'Pending'].includes(order.status)).map((order) => (
-              <div key={order.id} className="border-b py-6">
-                <p className="text-gray-700">Order ID: {order.id}</p>
-                <p className="text-gray-700">Date: {order.date}</p>
-                <p className="text-gray-700">Status:
+              <div key={order.id} className="bg-white p-6 rounded-xl shadow-md mb-6 transform hover:scale-105">
+                <p className="text-lg font-semibold text-gray-800">Order ID: {order.id}</p>
+                <p className="text-gray-600">Date: {order.date}</p>
+                <p className="text-gray-600">Status:
                   <span
                     className={`${order.status === 'Delivered' ? 'text-green-600' :
                       order.status === 'Processing' ? 'text-yellow-600' :
                         order.status === 'On the way' ? 'text-blue-600' :
-                          order.status === 'Cancelled' ? 'text-red-600' :
-                            order.status === 'Pending' ? 'text-gray-600' : ''
-                      } font-semibold`}
+                          order.status === 'Pending' ? 'text-gray-600' :
+                            'text-red-600'} font-semibold`}
                   >
                     {order.status}
                   </span>
                 </p>
-                <p className="text-gray-700">Total Price: ${order.totalPrice}</p>
+                <p className="text-gray-600">Total: ${order.totalPrice}</p>
 
                 {/* Show cancel option if the order is Processing, On the way, or Pending */}
                 {(order.status === 'Processing' || order.status === 'On the way' || order.status === 'Pending') && (
-                  <div className="mt-4">
-                    <button
-                      onClick={() => handleCancelOrder(order.id)}
-                      className="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700"
-                    >
-                      Cancel Order
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleCancelOrder(order.id)}
+                    className="mt-4 py-2 px-4 bg-red-600 text-white rounded-full hover:bg-red-700 transition-all"
+                  >
+                    Cancel Order
+                  </button>
                 )}
               </div>
-            ))
-          }
+            ))}
         </div>
       </div>
     </div>
