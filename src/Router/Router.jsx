@@ -12,6 +12,7 @@ import DeliveryManSignUp from '../Pages/SignUp/DeliveryManSignUp';
 import SalesSignUp from '../Pages/SignUp/SalesSignUp';
 import CustomerSignUp from '../Pages/SignUp/CustomerSignUp';
 import CustomerProfile from '../Pages/Profile/CustomerProfile';
+import AdminPanel from '../Pages/AdminPanel/AdminPanel';
 
 
 const Router = createBrowserRouter([
@@ -59,6 +60,10 @@ const Router = createBrowserRouter([
             {
                 path: '/customer_profile',
                 element: <CustomerProfile></CustomerProfile>
+            },
+            {
+                path: '/admin',
+                element: <AdminPanel></AdminPanel>
             },
 
         ]
