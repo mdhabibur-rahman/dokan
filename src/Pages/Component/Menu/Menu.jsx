@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom'; // Import to check the current route
+import { useLocation } from 'react-router-dom';
 
 const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating, searchQuery, setSearchQuery }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu
-  const location = useLocation(); // Use location to track the current route
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const handlePriceChange = (e, type) => {
-    if (type === 'min') {
-      setMinPrice(e.target.value);
-    } else if (type === 'max') {
-      setMaxPrice(e.target.value);
-    }
+    if (type === 'min') setMinPrice(e.target.value);
+    else setMaxPrice(e.target.value);
   };
 
   const handleRatingClick = (star) => {
@@ -22,23 +19,41 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
     setSearchQuery(e.target.value);
   };
 
-  const isSalesProfilePage = location.pathname === '/salesprofile'; // Check if we are on the salesprofile page
-  const isDeliveryManProfilePage = location.pathname === '/delivery_man_Profile'; // Check if we are on the delivery man profile page
-  const isCustomerProfilePage = location.pathname === '/customer_profile'; // Check if we are on the customer profile page
+
+  
+
+  const isAdminPage = location.pathname === '/admin';
+  const isSalesProfilePage = location.pathname === '/salesprofile';
+  const isDeliveryManProfilePage = location.pathname === '/delivery_man_Profile';
+  const isCustomerProfilePage = location.pathname === '/customer_profile';
 
   return (
     <>
-      {/* Only show the hamburger menu icon if we are NOT on the /customer_profile page */}
+      {/* Show menu icon unless on customer profile */}
       {!isCustomerProfilePage && (
         <button
           className="2xl:hidden text-2xl sm:text-lg ml-2"
-          onClick={() => setIsMenuOpen(!isMenuOpen)} // Toggle menu visibility
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <FaBars />
         </button>
       )}
 
-      {/* Show Sidebar for /salesprofile */}
+      {/* Admin Dropdown Menu */}
+      {isAdminPage && isMenuOpen && (
+        <div className="absolute top-16 left-0 w-64 bg-white shadow-lg z-20 p-4 rounded-lg">
+          <ul className="space-y-4">
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Dashboard</li>
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Earnings</li>
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Restaurant</li>
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Customers</li>
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Delivery Man</li>
+            <li className="text-lg hover:text-blue-500 cursor-pointer">Settings</li>
+          </ul>
+        </div>
+      )}
+
+      {/* Sidebar for Sales Profile */}
       {isSalesProfilePage && isMenuOpen && (
         <div className="w-64 h-auto bg-white p-10 shadow-md fixed top-20 left-0 z-20">
           <ul>
@@ -52,7 +67,7 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
         </div>
       )}
 
-      {/* Show Sidebar for /delivery_man_Profile */}
+      {/* Sidebar for Delivery Man Profile */}
       {isDeliveryManProfilePage && isMenuOpen && (
         <div className="w-64 h-auto bg-white p-10 shadow-md fixed top-20 left-0 z-20">
           <ul>
@@ -66,13 +81,11 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
         </div>
       )}
 
-      {/* If not on /salesprofile or /delivery_man_Profile, show the mobile filter menu when the menu icon is clicked */}
-      {!isSalesProfilePage && !isDeliveryManProfilePage && isMenuOpen && (
+      {/* Existing Mobile Filter Menu */}
+      {!isSalesProfilePage && !isDeliveryManProfilePage && !isAdminPage && isMenuOpen && (
         <div className="2xl:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10 p-4 rounded-b-lg">
-          {/* Compact Filters Section */}
           <div className="space-y-4">
-
-            {/* Sort By Section */}
+            {/* Sort By */}
             <div>
               <h3 className="font-medium text-lg">Sort By</h3>
               <select className="w-full p-2 border rounded-md text-sm">
@@ -82,7 +95,7 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
               </select>
             </div>
 
-            {/* Price Range Section */}
+            {/* Price Range */}
             <div>
               <h3 className="font-medium text-lg">Price Range</h3>
               <div className="flex justify-between text-sm">
@@ -107,7 +120,7 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
               />
             </div>
 
-            {/* Rating Section */}
+            {/* Rating */}
             <div>
               <h3 className="font-medium text-lg">Rating</h3>
               <div className="flex justify-start space-x-1 text-sm">
@@ -126,7 +139,7 @@ const Menu = ({ minPrice, setMinPrice, maxPrice, setMaxPrice, rating, setRating,
               </div>
             </div>
 
-            {/* Search Section */}
+            {/* Search */}
             <div>
               <h3 className="font-medium text-lg">Search</h3>
               <input

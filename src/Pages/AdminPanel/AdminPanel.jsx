@@ -52,7 +52,7 @@ const AdminPanel = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex flex-1">
         {/* Sidebar */}
-        <div className="w-full lg:w-72 h-auto bg-white shadow-xl p-8 sm:p-10 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105">
+        <div className="w-full lg:w-72 h-auto bg-white shadow-xl p-8 sm:p-10 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105 hidden 2xl:block">
           <h1 className="text-3xl font-semibold text-gray-900 mb-10 transition-all duration-300 transform hover:scale-110 hover:text-blue-600">
             Admin Panel
           </h1>
