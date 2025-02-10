@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaRegUser, FaMotorcycle, FaStoreAlt, FaEllipsisV } from 'react-icons/fa';
+import { FaBars, FaRegUser, FaMotorcycle, FaStoreAlt } from 'react-icons/fa';
 import Menu from '../Component/Menu/Menu';
+import More from '../Component/More/More';
 
 
 const Navbar = () => {
@@ -13,7 +14,6 @@ const Navbar = () => {
   const [maxPrice, setMaxPrice] = useState(1000);
   const [rating, setRating] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY >= mainElementTop) {
@@ -59,7 +59,6 @@ const Navbar = () => {
         }`}
     >
       <div className="navbar-start flex items-center">
-
         <Menu
           minPrice={minPrice}
           setMinPrice={setMinPrice}
@@ -70,7 +69,6 @@ const Navbar = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        
         {/* Brand Name */}
         <span className="btn btn-ghost ml-2 text-xl text-[17px] lg:text-[20px]">
           <a href='/'>ZOOMEATS</a>
@@ -91,36 +89,9 @@ const Navbar = () => {
           <button className="btn btn-ghost text-sm"><a href="/login">Login</a></button>
           <button className="btn btn-ghost text-sm" onClick={toggleModal}>Sign Up</button>
         </div>
-        <div className="relative flex items-center space-x-2">
-          <a href="">
-            <img
-              src="https://www.w3schools.com/w3images/avatar2.png"
-              alt="Profile"
-              className="rounded-full w-10 h-10 object-cover ml-2"
-            />
-          </a>
-          <button
-            className="text-xl text-gray-600 lg:hidden"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            <FaEllipsisV />
-          </button>
 
-          {/* Dropdown Menu */}
-          {isDropdownOpen && (
-            <div className="absolute right-[-8px] bg-white shadow-lg rounded-b-md mt-60 w-48 p-2 flex flex-col">
-              <a href="/" className="py-2 px-4 hover:bg-gray-200 rounded-md">Home</a>
-              <a href="/about" className="py-2 px-4 hover:bg-gray-200 rounded-md">About Us</a>
-              <a href="/login" className="py-2 px-4 hover:bg-gray-200 rounded-md">Login</a>
-              <a
-                className="py-2 px-4 hover:bg-gray-200 rounded-md"
-                onClick={toggleModal}
-              >
-                Sign Up
-              </a>
-            </div>
-          )}
-        </div>
+        {/* Use the DropdownMenu component */}
+        <More toggleModal={toggleModal} />
       </div>
 
       {/* Modal for Role Selection */}
