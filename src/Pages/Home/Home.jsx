@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from '../Component/Carousel/Carousel';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
+    const navigate = useNavigate();
+
+    const handleCardClick = (id) => {
+        navigate(`/food/${id}`); // Redirect to details page
+    };
     const [rating, setRating] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(1000); // Set an initial max price range
@@ -183,48 +190,28 @@ const Home = () => {
 
                     {/* Display All or Filtered Products */}
                     <div className="flex items-center justify-center mt-10">
-                        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-15">
-                            {(filteredProducts.length > 0 ? filteredProducts : foodItems).map((food) => (
-                                <div
-                                    key={food.id}
-                                    className="card bg-base-100 shadow-xl w-full sm:w-50 md:w-60 lg:w-72 max-w-xs mx-auto h-auto sm:h-96 md:h-auto"
-                                >
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src={food.image}
-                                            alt={food.name}
-                                            className="rounded-lg w-full h-full object-cover"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">{food.name}</h2>
-                                        <p className="text-xs sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-xs">
-                                            {/* Show description based on screen size */}
-                                            {isSmallScreen
-                                                ? expandedDescription === food.id
-                                                    ? food.description
-                                                    : truncateDescription(food.description, 40)
-                                                : expandedDescription === food.id
-                                                    ? food.description
-                                                    : truncateDescription(food.description, 40)} {/* Full or truncated description */}
-                                        </p>
-                                        {food.description.length > 40 && (
-                                            <button
-                                                className="text-indigo-600 hover:underline text-xs sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-xs"
-                                                onClick={() => toggleDescription(food.id)} // Toggle description visibility
-                                            >
-                                                {expandedDescription === food.id ? 'See Less' : 'See More'}
-                                            </button>
-                                        )}
-                                        <div className="card-actions">
-                                            <button className="w-full py-1 px-1 sm:py-2 sm:px-4 text-[12px] sm:text-[20px] bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-15">
+            {(filteredProducts.length > 0 ? filteredProducts : foodItems).map((food) => (
+                <div
+                    key={food.id}
+                    onClick={() => handleCardClick(food.id)} // Navigate on click
+                    className="cursor-pointer card bg-base-100 shadow-xl w-full sm:w-50 md:w-60 lg:w-72 max-w-xs mx-auto h-auto sm:h-96 md:h-auto"
+                >
+                    <figure className="px-10 pt-10">
+                        <img src={food.image} alt={food.name} className="rounded-lg w-full h-full object-cover" />
+                    </figure>
+                    <div className="card-body items-center text-center">
+                        <h2 className="card-title text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">{food.name}</h2>
+                        <p className="text-xs sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-xs">{truncateDescription(food.description, 40)}</p>
+                        <div className="card-actions">
+                            <button className="w-full py-1 px-1 sm:py-2 sm:px-4 text-[12px] sm:text-[20px] bg-indigo-600 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-indigo-700">
+                                Buy Now
+                            </button>
                         </div>
+                    </div>
+                </div>
+            ))}
+        </div>
                     </div>
                 </div>
             </main>

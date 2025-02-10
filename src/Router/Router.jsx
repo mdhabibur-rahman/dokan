@@ -13,6 +13,7 @@ import SalesSignUp from '../Pages/SignUp/SalesSignUp';
 import CustomerSignUp from '../Pages/SignUp/CustomerSignUp';
 import CustomerProfile from '../Pages/Profile/CustomerProfile';
 import AdminPanel from '../Pages/AdminPanel/AdminPanel';
+import FoodDetails from '../Pages/Component/FoodDetails/FoodDetails';
 
 
 const Router = createBrowserRouter([
@@ -64,6 +65,10 @@ const Router = createBrowserRouter([
             {
                 path: '/admin',
                 element: <AdminPanel></AdminPanel>
+            },
+            {
+                path: '//food/:id',
+                element: <FoodDetails></FoodDetails>
             },
 
         ]

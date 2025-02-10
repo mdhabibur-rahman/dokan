@@ -1,24 +1,56 @@
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faTachometerAlt, 
+  faBoxOpen, 
+  faMoneyBillWave, 
+  faStar, 
+  faCog,
+  faHistory // Icon for Past Deliveries
+} from "@fortawesome/free-solid-svg-icons";
+
 const DeliveryManProfile = () => {
+  const [selectedOption, setSelectedOption] = useState("Dashboard");
+
+  const menuItems = [
+    { name: "Dashboard", icon: faTachometerAlt },
+    { name: "Current Deliveries", icon: faBoxOpen },
+    { name: "Past Deliveries", icon: faHistory }, // Updated icon for Past Deliveries
+    { name: "Earnings", icon: faMoneyBillWave },
+    { name: "Reviews", icon: faStar },
+    { name: "Settings", icon: faCog },
+  ];
+
   return (
     <div className="flex flex-col lg:flex-row">
       {/* Sidebar */}
-      <div className="w-full lg:w-64 h-auto bg-white p-6 sm:p-8 shadow-md hidden lg:block">
-        <ul>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Dashboard</li>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Current Deliveries</li>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Past Deliveries</li>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Earnings</li>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Reviews</li>
-          <li className="text-[8px] sm:text-lg mb-4 hover:text-blue-500 cursor-pointer">Settings</li>
+      <div className="w-full lg:w-auto h-auto bg-white p-6 sm:p-8 shadow-md hidden 2xl:block">
+        <h1 className="text-3xl font-semibold text-gray-900 mb-10">Delivery Man Panel</h1>
+        <ul className="space-y-6">
+          {menuItems.map((item) => (
+            <li
+              key={item.name}
+              className={`text-lg text-gray-700 mb-4 cursor-pointer flex items-center space-x-5 p-4 rounded-lg transition-all duration-300 ease-in-out transform hover:bg-gray-100 hover:shadow-2xl hover:scale-110 hover:rotate-1 ${
+                selectedOption === item.name
+                  ? "bg-gray-200 text-gray-900 font-semibold scale-110 shadow-xl"
+                  : "hover:scale-105"
+              }`}
+              onClick={() => setSelectedOption(item.name)}
+            >
+              <FontAwesomeIcon
+                icon={item.icon}
+                className="text-3xl transition-all duration-300 transform hover:rotate-45"
+              />
+              <span>{item.name}</span>
+            </li>
+          ))}
         </ul>
       </div>
 
       {/* Main content */}
       <div className="flex-1 p-4 sm:p-8">
-
         {/* Profile Header */}
         <div className="flex items-center mb-6 sm:mb-8">
-          {/* Delivery Man Profile Picture */}
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gray-300 mr-4 sm:mr-6">
             <img
               src="https://www.w3schools.com/w3images/avatar6.png" // Demo image URL
@@ -99,7 +131,6 @@ const DeliveryManProfile = () => {
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   );
